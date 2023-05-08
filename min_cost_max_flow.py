@@ -173,4 +173,4 @@ def solve(notes, verbose=1):
 
 # solve([1, 2, 3, 4, 5], 3)
 
-solve([9, 37, 31, 17, 9], 1)
+# solve([9, 37, 31, 17, 9], 1)

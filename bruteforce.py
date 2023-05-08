@@ -1,18 +1,29 @@
 
-from utils import condition
+def condition(notes, indexes):
+    if len(indexes) == 1:
+        return True
+    for i in range(len(indexes)-1):
+        if notes[indexes[i]] % 7 == notes[indexes[i+1]] % 7:
+            # print(True)
+            return True
+        if abs(notes[indexes[i]] - notes[indexes[i+1]]) == 1:
+            # print(True)
+            return True
 
-def find_all_sub_strings(notes, idx, sub_arr, found):
-    # print(id)
+        return False
+
+
+def find_all_sub_strings(notes, idx, sub_arr):
     if idx == len(notes):
         if len(sub_arr) != 0:
             return sub_arr
     else:
         n_sub_arr = find_all_sub_strings(
-            notes, idx+1, sub_arr, [])
+            notes, idx+1, sub_arr)
         if n_sub_arr and condition(notes, n_sub_arr):
             found.append(n_sub_arr)
         n_sub_arr = find_all_sub_strings(
-            notes, idx+1, sub_arr+[idx], [])
+            notes, idx+1, sub_arr+[idx])
         if n_sub_arr and condition(notes, n_sub_arr):
             found.append(n_sub_arr)
 
@@ -32,19 +43,20 @@ def find_longest(notes):
     return max_len, bests
 
 
-def solve(notes, verbose=1):
-    # found[id] = []
-    f = find_all_sub_strings(notes, 0, [], [])
+found = []
 
-    print(f)
+
+def solve(notes, verbose=1):
+
+    global found
+
+    found = []
+    f = find_all_sub_strings(notes, 0, [])
     if verbose >= 2:
         print("substrings found:", f)
-    sol, dat = find_longest(f)
+    sol, dat = find_longest(found)
     if verbose >= 2:
         print("best melodies:", dat)
     if verbose >= 1:
         print("best score:", sol)
     return sol
-
-
-solve([1, 2, 3, 4, 5], 3)

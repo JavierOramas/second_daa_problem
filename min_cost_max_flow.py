@@ -55,12 +55,10 @@ class MinCostMaxFlow:
         mark = [False] * self.n
         res = self.__dinitz_dfs(self.source, np.inf, mark)[0]
 
-        # if verbose >= 3:
-        # print(f"DFS: {res}")
         return res
 
     def dinitz_bfs(self, verbose=1):
-        self.dist_from_source = [self.n + 1] * self.n
+        self.dist_from_source = [self.n + 10] * self.n
 
         Q = deque()
         Q.append(self.source)
@@ -76,12 +74,13 @@ class MinCostMaxFlow:
 
                 if self.dist_from_source[n_node] > self.n:
                     self.dist_from_source[n_node] = self.dist_from_source[node]+1
+
                     Q.append(n_node)
 
     def calculate(self):
         any_path, potentials = Bellman_Ford(
             self.n, self.edges, self.source, self.sink)
-        print(potentials)
+        # print(potentials)
         if not any_path:
             return 0, 0
 
@@ -97,14 +96,15 @@ class MinCostMaxFlow:
                 break
 
             self.apply_potentials(potentials)
+
             while True:
                 self.dinitz_bfs()
-                # print('here')
                 if self.dist_from_source[self.sink] >= self.n:
                     break
-            current_flow = self.dinitz_dfs()
-            total_flow += current_flow
-            total_cost += current_flow*self.sink_potential
+                current_flow = self.dinitz_dfs()
+                total_flow += current_flow
+                total_cost += current_flow*self.sink_potential
+
         return total_flow, total_cost
 
 
@@ -173,4 +173,4 @@ def solve(notes, verbose=1):
 
 # solve([1, 2, 3, 4, 5], 3)
 
-solve([9, 37, 31, 17, 9], 3)
+solve([9, 37, 31, 17, 9], 1)

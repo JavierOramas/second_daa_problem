@@ -51,7 +51,7 @@ def build_graph(notes, verbose=1):
         graph[idx] = []
         for idx2, note2 in enumerate(notes):
             if idx2 > idx and cond_compare(note, note2):
-                if verbose >= 1:
+                if verbose >= 2:
                     print(f"adding edge {note} -> {note2}")
                 if not idx2 in graph:
                     graph[idx2] = []
